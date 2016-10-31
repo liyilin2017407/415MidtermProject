@@ -8,6 +8,8 @@ library(dplyr)
 library(readr)
 library(data.table)
 library(doBy)
+library(choroplethr)
+library(choroplethrMaps)
 
 # Part 1. Tidy Data
 
@@ -37,7 +39,6 @@ county <- raw %>%
 county$County <- sub("County","",county$County)
 county
 
-
 # Select the information of Oil and Gas Production for each county to form a new table
 oil_gas0 <- raw %>% 
   select(FIPS, oil2000,oil2001,oil2002,oil2003,oil2004,oil2005,oil2006,oil2007,oil2008,oil2009,oil2010,oil2011,gas2000,gas2001,gas2002,gas2003,gas2004,gas2005,gas2006,gas2007,gas2008,gas2009,gas2010,gas2011) %>%
@@ -54,8 +55,6 @@ oil_gas_tidy <- oil_gas1 %>%
   separate(demo, c("production", "year"), 3)
 
 
-
-
 # Part 2. Data Summary
 
 # (1) average annual oil and gas production for each county
@@ -67,7 +66,7 @@ raw$mean_oil_production <- rowSums(raw[demo1:demo2])/12
 raw$mean_gas_production <- rowSums(raw[demo3:demo4])/12
 
 mean_county_production <- raw %>% 
-  select(FIPS,Population_Level, oil_production, gas_production) %>%
+  select(FIPS,Population_Level, mean_oil_production, mean_gas_production) %>%
   unique() %>%
   mutate(county_id = row_number())
 
@@ -133,7 +132,6 @@ County_Level_Mean_Gas <- County_Level_Mean %>%
 
 
 
-
 # Part 3. Visualization
 require(ggplot2) 
 
@@ -166,12 +164,21 @@ ggplot(data = county_production, aes(factor(Population_Level),mean_gas_productio
   ggtitle("Gas Production By County Level")
 
 # 3 Scatter Plot
+# ggplot for "Oil Production of Each County In Each County Level"
 ggplot(county_production, aes(x = factor(Population_Level), y = mean_oil_production))+
   geom_point(aes(color = Population_Level))+
   scale_y_continuous(limits = c(0, 2*10^7))+
   xlab("County Level")+
   ylab("Oil Production")+
-  ggtitle("oil Production of Each County in Different County Level")
+  ggtitle("Oil Production of Each County in Each County Level")
+
+# ggplot for "Gas Production of Each County In Each County Level"
+ggplot(county_production, aes(x = factor(Population_Level), y = mean_gas_production))+
+  geom_point(aes(color = Population_Level))+
+  scale_y_continuous(limits = c(0, 2*10^7))+
+  xlab("County Level")+
+  ylab("Gas Production")+
+  ggtitle("Gas Production of Each County in Each County Level")
 
 # 4
 # ggplot for "Annual Oil Production for each County Level"
@@ -191,3 +198,58 @@ ggplot(data = County_Level_Mean_Gas, aes(x = factor(year), y = gas_production_me
   geom_line(aes(group = County_Level)) + geom_point()+
   scale_y_continuous(breaks=seq(0, 120000000, 2000000))+
   scale_colour_gradient(low = 'lightblue', high = 'darkblue', breaks=c(1:9))
+
+# 5
+#Table: Mean Oil Production By County
+County_Level_Mean_Oil_year <- County_Level_Mean %>% 
+  select(oil2000,oil2001,oil2002,oil2003,oil2004,oil2005,oil2006,oil2007,oil2008,oil2009,oil2010,oil2011) %>%
+  unique() %>%
+  mutate()
+names(County_Level_Mean_Oil_year)[1:12] <- (2000:2011)
+
+#Stacked Barplot: Mean Oil Production By County
+barplot(as.matrix(County_Level_Mean_Oil_year),xlab="Year",ylab="Mean Oil Production",main="Mean Oil Production By County",ylim=c(0,5e+6),col=heat.colors(9))+
+  legend(title="County","right",c("9","8","7","6","5","4","3","2","1"),cex=0.9,inset=c(-0.08,0),bty="n",xpd=TRUE,fill=rev(heat.colors(9)))
+
+
+#Table: Mean Gas Production By County
+County_Level_Mean_Gas_year <- County_Level_Mean %>% 
+  select(gas2000,gas2001,gas2002,gas2003,gas2004,gas2005,gas2006,gas2007,gas2008,gas2009,gas2010,gas2011) %>%
+  unique() %>%
+  mutate()
+names(County_Level_Mean_Gas_year)[1:12] <- (2000:2011)
+
+#Stacked Barplot: Mean Gas Production By County
+barplot(as.matrix(County_Level_Mean_Gas_year),xlab="Year",ylab="Mean Gas Production",main="Mean Gas Production By County",ylim=c(0,8e+7),col=heat.colors(9))+
+  legend(title="County","right",c("9","8","7","6","5","4","3","2","1"),cex=0.9,inset=c(-0.08,0),bty="n",xpd=TRUE,fill=rev(heat.colors(9)))
+
+# 6  
+# Demographics - 2001-2011 oil and gas Production for each county
+
+# create a table with FIPS and total oil production from 2001-2011
+totaloil <- county_production %>% 
+  select(FIPS, mean_oil_production) %>%
+  unique() %>%
+  mutate()
+
+# in order to use county_choropleth function, rename the columns according to the function requirements
+names(totaloil)[1] <- "region"
+names(totaloil)[2] <- "value"
+
+county_choropleth (totaloil,
+                   title ="2001-2011 Oil Production", 
+                   legend = "Quantity")
+
+# same procedure for gas
+totalgas <- county_production %>% 
+  select(FIPS, mean_gas_production) %>%
+  unique() %>%
+  mutate()
+
+names(totalgas)[1] <- "region"
+names(totalgas)[2] <- "value"
+
+county_choropleth (totalgas,
+                   title ="2001-2011 Gas Production", 
+                   legend = "Quantity")
+
