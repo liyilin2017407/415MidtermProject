@@ -66,7 +66,7 @@ raw$mean_oil_production <- rowSums(raw[demo1:demo2])/12
 raw$mean_gas_production <- rowSums(raw[demo3:demo4])/12
 
 mean_county_production <- raw %>% 
-  select(FIPS,Population_Level, mean_oil_production, mean_gas_production) %>%
+  select(FIPS, Population_Level, mean_oil_production, mean_gas_production) %>%
   unique() %>%
   mutate(county_id = row_number())
 

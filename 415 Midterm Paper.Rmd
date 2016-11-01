@@ -1,0 +1,93 @@
+---
+title: "Midterm Paper"
+author: "Yilin Li, collaborated with Mengze Yin, Tianchi Zhang "
+date: "October 27, 2016"
+output: html_document
+---
+
+#Introduction
+
+
+In this project, "County-level Oil and Gas Production" obtained from USDA is chosen as our raw dataset. The original data contains information of FIPS, County Name, Rural_Urban_Continuum_Code, Urban_Influence, Metro_Nonmetro, Metro_Micro_Noncore and the corresponding oil and gas production for each year, ranging from 2001 to 2011. Based on the information given, our objective are to 
+
+1) Discover the relationship between population level and production 
+2) Analyze the correlation between oil production and gas production
+3) Observe the overall trend of production from 2001-2011
+3) Explore the regions where oil and gas are mostly produced
+
+
+
+
+#Tidy Data
+
+In order to get the dataset ready for future analytical purpose, our first task is to tidy the data. Even though the table seems organized, there are three problems that do not accord with the standard of a tidy data.
+
+1. Multiple observational units forms one table
+
+This table contains observations on two types of observational units: county and production (oil and gas). This results in a duplication which means for information about county, such as its FIPS code, Urban_Influence code, etc. have to be repeated when we try to present the production each year. Therefore, our first step is to break it into two datasets: County and Production.
+
+For the new County Information dataset, we include  FIPS, County Name, Rural_Urban_Continuum_Code, Urban_Influence, Metro_Nonmetro, Metro_Micro_Noncore by selecting the columns from the original table. To reduce repetition and enhance readability, we also eliminate the word "County" from the County column. By completing these two steps, the County table is tidied. 
+
+2. Each variable forms a column
+
+Like how we tidied the County table, columns related to production are selected from the raw table create the Oil and Gas Production table. This data has four variables : FIPS, year, production type and production amount. However, column headers contains multiple variables: production type and year, for example, oil2001, oil2002 and therefore needed to be split into two. By using the function "separate" along with "demo", we now have a tidy table for oil and gas production.
+
+
+# Statistics
+
+First of all, we dicover an positive correlation among Rural_Urban_Continuum_Code, Urban_Influence (Population Level), Metro_Nonmetro, Metro_Micro_Noncore, it turns out the more developed counties tend to be more heavily populated and closer to metropolitans. Due to this reason, for the rest of the project, we will only select one of the indicators - population level as the measurement of county level. After we narrow down the variables, we analyzed three statistics in total that might offer insights to future analysts.
+
+First, we calculated the average annual oil and gas production for each county.
+
+Second, we derived the nationalwide mean production each year (oil & gas) to compare the relationship between oil and gas production and analyze the overall trend of energy extraction.
+
+Thirdly, we calculated average oil and gas production for counties by each population level to explore if county level influences the amount of energy production.
+
+
+#Visualization
+
+The first graph describes the relationship between oil production and gas production. As we can see, there is an overall increasing trend along the time. Furthermore, for each year, much more oil is produced than gas. Therefore, we can conclude that the demand for oil is larger.
+
+![](/Users/AnnyLee/Desktop/415MidtermProject/1.png)
+
+
+The second graph summarizes the mean oil production for each county level. Surprisingly, the amount of oil production is not positively correlated with the county level. Therefore, we may conclude that the production does not simply depend on the development level of one region, location and the price of labor might akso be one of the factors.
+
+![](/Users/AnnyLee/Desktop/415MidtermProject/2.png)
+
+Similarly, our third graph describes the mean gas production for each county level. The most developed regions don't necessarily produce the most amount of gas.
+
+![](/Users/AnnyLee/Desktop/415MidtermProject/3.png)
+
+The fourth graph is a scaltterplot. Every dot represents the amount of oil produced by a certain county. The information of county level is drawn on the x-axis to give readers a general idea of how the data distributes. Because many counties do not produce oil at all, lots of dots clutter on the x axis while some other counties produce a lot and should be seen as outliers. 
+
+![](/Users/AnnyLee/Desktop/415MidtermProject/4.png)
+
+The fifth graph is a scaltterplot analyzing the gas production for each county in each county level. Unlike the distribution of oil, gas production is more continuous and centralized.
+
+![](/Users/AnnyLee/Desktop/415MidtermProject/5.png)
+
+The sixth graph shows the annual mean of oil production for each county, which is differentiated with colored lines. From the graph, we can tell County Level 5 produces the most oil. Though there is a slight decline during 2005-2006, the production keeps increasing after that.
+
+![](/Users/AnnyLee/Desktop/415MidtermProject/6.png)
+
+
+The seventh shows the annual mean of gas production for each county. There is an overall increasing trend for the production.
+
+![](/Users/AnnyLee/Desktop/415MidtermProject/7.png)
+
+
+The eighth graph is a stacked barplot, which describes the mean oil production by county. Each shade represents a different county level and we can tell from the graph that County Level- 5 countributes most of the oil compared to others. Furthermore, the overall oil production is increasing from 2001-2011.
+
+![](/Users/AnnyLee/Desktop/415MidtermProject/8.png)
+
+Same results could be concluded for the ninth graph which represents the mean gas production county.
+
+![](/Users/AnnyLee/Desktop/415MidtermProject/9.png)
+
+The tenth graph demonstrates the oil production level on the US map. The majority counties that produce oil are located in the middle part of the country, California and the regions close to the 5 Big Lakes. Over 75% of the US. regions don't extract oil at all.
+![](/Users/AnnyLee/Desktop/415MidtermProject/10.png)
+
+Similarly, the eleventh graph demonstrates the gas production level on the US map and same conclusion could be drawn. The regions where produce the most oil also contributes to most of the gas production.
+
+![](/Users/AnnyLee/Desktop/415MidtermProject/11.png)
