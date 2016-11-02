@@ -71,7 +71,7 @@ mean_county_production <- raw %>%
   mutate(county_id = row_number())
 
 
-# (2) nationalwide mean production (per county) in each year to compare nationwide oil and gas production
+# (2) nationalwide mean production in each year to compare nationwide oil and gas production
 # nationalwide oil production
 mean_oil <- colMeans(raw[9:20], na.rm = FALSE, dims =1L)
 mean_oil <- data_frame(year=c(2000:2011),mean_oil=mean_oil)

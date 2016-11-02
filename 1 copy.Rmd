@@ -7,7 +7,8 @@ output: html_document
 
 #Introduction
 
-In this project, "County-level Oil and Gas Production" obtained from USDA is chosen as our raw dataset. The original data contains information of FIPS, County Name, Rural_Urban_Continuum_Code, Urban_Influence, Metro_Nonmetro, Metro_Micro_Noncore and the corresponding oil and gas production for each year, ranging from 2001 to 2011. Based on the information given, our objectives are to 
+
+In this project, "County-level Oil and Gas Production" obtained from USDA is chosen as our raw dataset. The original data contains information of FIPS, County Name, Rural_Urban_Continuum_Code, Urban_Influence, Metro_Nonmetro, Metro_Micro_Noncore and the corresponding oil and gas production for each year, ranging from 2001 to 2011. Based on the information given, our objective are to 
 
 1) Discover the relationship between population level and production 
 2) Analyze the correlation between oil production and gas production
@@ -15,15 +16,17 @@ In this project, "County-level Oil and Gas Production" obtained from USDA is cho
 3) Explore the regions where oil and gas are mostly produced
 
 
+
+
 #Tidy Data
 
-In order to get the dataset ready for future analytical purpose, our first task is to tidy the data. Even though the table seems organized, there are two problems that do not accord with the standard of a tidy data.
+In order to get the dataset ready for future analytical purpose, our first task is to tidy the data. Even though the table seems organized, there are three problems that do not accord with the standard of a tidy data.
 
 1. Multiple observational units forms one table
 
-This table contains observations on two types of observational units: county and production (oil and gas). This results in a duplication, which means information about county, such as its FIPS code, Urban_Influence code, etc. has to be repeated when we try to present the annual production. Therefore, our first step is to break it into two datasets: County and Production.
+This table contains observations on two types of observational units: county and production (oil and gas). This results in a duplication which means for information about county, such as its FIPS code, Urban_Influence code, etc. have to be repeated when we try to present the production each year. Therefore, our first step is to break it into two datasets: County and Production.
 
-For the new County Information dataset, we include FIPS, County Name, Rural_Urban_Continuum_Code, Urban_Influence, Metro_Nonmetro, Metro_Micro_Noncore by selecting the columns from the original table. To reduce repetition and enhance readability, we also eliminate the word "County" from the County column. By completing these two steps, the County table is tidied. 
+For the new County Information dataset, we include  FIPS, County Name, Rural_Urban_Continuum_Code, Urban_Influence, Metro_Nonmetro, Metro_Micro_Noncore by selecting the columns from the original table. To reduce repetition and enhance readability, we also eliminate the word "County" from the County column. By completing these two steps, the County table is tidied. 
 
 2. Each variable forms a column
 
@@ -32,13 +35,14 @@ Like how we tidied the County table, columns related to production are selected 
 
 # Statistics
 
-First of all, we dicover an positive correlation among Rural_Urban_Continuum_Code, Urban_Influence (Population Level), Metro_Nonmetro, Metro_Micro_Noncore, it turns out the more developed counties tend to be more heavily populated and closer to metropolitans. Due to this reason, for the rest of the project, we will only select one of the indicators - population level as the measurement of county level. After we narrow down the variables, we analyzed three statistics that might offer insights to future analysts.
+First of all, we dicover an positive correlation among Rural_Urban_Continuum_Code, Urban_Influence (Population Level), Metro_Nonmetro, Metro_Micro_Noncore, it turns out the more developed counties tend to be more heavily populated and closer to metropolitans. Due to this reason, for the rest of the project, we will only select one of the indicators - population level as the measurement of county level. After we narrow down the variables, we analyzed three statistics in total that might offer insights to future analysts.
 
 First, we calculated the average annual oil and gas production for each county.
 
 Second, we derived the nationalwide mean production each year (oil & gas) to compare the relationship between oil and gas production and analyze the overall trend of energy extraction.
 
 Thirdly, we calculated average oil and gas production for counties by each population level to explore if county level influences the amount of energy production.
+
 
 #Visualization
 

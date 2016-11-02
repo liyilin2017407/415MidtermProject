@@ -1,0 +1,29 @@
+---
+title: "Midterm Project"
+author: "Yilin Li"
+date: "October 31, 2016"
+output: html_document
+---
+```{r}
+Our dataset is concerning county-level oil and gas production obtained from USDA. The original dataset contains information of FIPS, County Name, Rural_Urban_Continuum_Code, Urban_Influence, Metro_Nonmetro, Metro_Micro_Noncore and the corresponding oil and gas production for each year, ranging from 2001 to 2011. Based on the information given, our group is curious about Our objective is to discover the relationship between population level and oil and gas production.
+In order to get the dataset ready for future analytical purpose, our first task is to tidy the data. Even though the table seems organized, there are three problems that do not accord with the standard of a tidy data.
+
+1. Multiple observational units forms one table
+
+This table contains observations on two types of observational units: county and production (oil and gas). This results in a duplication which means for information about county, such as its FIPS code, Urban_Influence code, etc. have to be repeated when we try to present the production each year. Therefore, our first step is to break it into two datasets: County and Production.
+
+For the new County Information dataset, we include  FIPS, County Name, Rural_Urban_Continuum_Code, Urban_Influence, Metro_Nonmetro, Metro_Micro_Noncore by selecting the columns from the original table. To reduce repetition and enhance readability, we also eliminate the word "County" from the County column. By completing these two steps, the County table is tidied. 
+
+2. Each variable forms a column.
+
+Like how we tidied the County table, columns related to production are selected from the raw table create the Oil and Gas Production table. This data has four variables : FIPS, year, production type and production amount. However, column headers contains multiple variables: production type and year, for example, oil2001, oil2002 and therefore needed to be split into two. By using the function "separate" along with "demo", we now have a tidy table for oil and gas production.
+
+
+Given the statistics and data, we are curious about the relationship between oil production and gas production, the impact of population level (county level) on the production and the overall trend of the production during 2001-2011.
+
+
+In this project, ggplot is used to visualize three types of relationship  in this "County-level oil and gas production" dataset. 
+The first one is a bar graph with oil and gas side by side to illustrate how the national mean production varied year to year and compare the differences between oil and gas production.
+```
+
+
